@@ -17,4 +17,4 @@ class TooManyStudentError(Exception):
         if None in (self.school_name, self.max_student):
             return 'Student is exceed the school capacity.'
         else:
-            return f'{self.school_name} has already {self.max_student} students. No more is allowed.'
+            return f'{self.school_name} has already max {self.max_student} students. No more is allowed.'

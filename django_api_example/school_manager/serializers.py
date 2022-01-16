@@ -1,21 +1,33 @@
 from rest_framework import serializers
+
+from .exceptions import TooManyStudentError
 from .models import Student, School
 
-
-class StudentSerializer(serializers.ModelSerializer):
-
-    school_name = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Student
-        exclude = ()
-        # fields = ['first_name']
-
-    def get_school_name(self, obj):
-        return obj.school.name
 
 class SchoolSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = School
         exclude = ()
+
+class StudentSerializer(serializers.ModelSerializer):
+
+    school = SchoolSerializer(read_only=True)
+
+    # The below field is used to write related school back to a new student obj
+    # but not showing up in the response.
+    school_id = serializers.PrimaryKeyRelatedField(
+        queryset=School.objects.all(), source='school', write_only=True)
+
+    class Meta:
+        model = Student
+        exclude = ()
+
+    def create(self, validated_data):
+        try:
+            return super(StudentSerializer, self).create(validated_data)
+        except TooManyStudentError as e:
+            raise serializers.ValidationError(str(e))
+        except Exception as e:
+            # handle other exceptions here.
+            raise e
