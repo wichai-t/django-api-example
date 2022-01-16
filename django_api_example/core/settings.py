@@ -20,6 +20,7 @@ env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
     ALLOWED_HOSTS=(list, []),
+    ADMIN_URL=(str, 'admin/'),  # modify admin url in production, a bit more secure :)
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,7 +40,7 @@ DEBUG = env('DEBUG')
 
 # ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(':')
 ALLOWED_HOSTS: List[str] = env('ALLOWED_HOSTS')
-
+ADMIN_URL = env('ADMIN_URL')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.gis',
     'rest_framework',
     'school_manager'
 ]
@@ -98,7 +100,7 @@ REST_FRAMEWORK = {
     ),
     # 'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 20,
+    'PAGE_SIZE': 10,
     'DEFAULT_PARSER_CLASSES': (
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
@@ -142,7 +144,7 @@ JWT_AUTH = {
 # https://django-environ.readthedocs.io/en/latest/#quick-start
 DATABASES = {
     # read os.environ['DATABASE_URL'] 
-    'default': env.db(),
+    'default': env.db(engine='django.contrib.gis.db.backends.postgis'),
 }
 
 CACHES = {    

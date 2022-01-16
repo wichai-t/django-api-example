@@ -1,5 +1,5 @@
 from rest_framework import serializers
-
+from rest_framework.exceptions import NotAcceptable
 from .exceptions import TooManyStudentError
 from .models import Student, School
 
@@ -27,7 +27,7 @@ class StudentSerializer(serializers.ModelSerializer):
         try:
             return super(StudentSerializer, self).create(validated_data)
         except TooManyStudentError as e:
-            raise serializers.ValidationError(str(e))
+            raise NotAcceptable(str(e))
         except Exception as e:
             # handle other exceptions here.
             raise e

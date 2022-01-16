@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters
 from .models import Student, School
 from .serializers import SchoolSerializer, StudentSerializer
 
@@ -10,6 +10,8 @@ class StudentViewSet(viewsets.ModelViewSet):
     """
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = StudentSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['first_name', 'last_name', 'school__name']
     queryset = Student.objects.all()
 
     def get_queryset(self):
@@ -28,4 +30,6 @@ class SchoolViewSet(viewsets.ModelViewSet):
     """
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     serializer_class = SchoolSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['name']
     queryset = School.objects.all()
