@@ -21,6 +21,8 @@ env = environ.Env(
     DEBUG=(bool, False),
     ALLOWED_HOSTS=(list, []),
     ADMIN_URL=(str, 'admin/'),  # modify admin url in production, a bit more secure :)
+    AUTH_URL=(str, 'api-auth/'),
+    TOKEN_AUTH_URL=(str, 'api-token-auth/'),
 )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -41,6 +43,8 @@ DEBUG = env('DEBUG')
 # ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(':')
 ALLOWED_HOSTS: List[str] = env('ALLOWED_HOSTS')
 ADMIN_URL = env('ADMIN_URL')
+AUTH_URL = env('AUTH_URL')
+TOKEN_AUTH_URL = env('TOKEN_AUTH_URL')
 
 INSTALLED_APPS = [
     'django.contrib.admin',

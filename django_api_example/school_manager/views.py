@@ -1,7 +1,19 @@
-from rest_framework import viewsets, permissions, filters
+from rest_framework import viewsets, permissions, filters, response, reverse
+from rest_framework.decorators import api_view, renderer_classes
+from rest_framework.renderers import JSONRenderer
 from .models import Student, School
 from .serializers import SchoolSerializer, StudentSerializer
 
+@api_view(('GET',))
+@renderer_classes((JSONRenderer,))
+def index(request):
+    """
+    Simple landing page listing the APIs
+    """
+    return response.Response({
+        'students': reverse.reverse('student-list', request=request),
+        'schools': reverse.reverse('school-list', request=request)
+    })
 
 class StudentViewSet(viewsets.ModelViewSet):
     """

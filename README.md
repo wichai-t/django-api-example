@@ -5,19 +5,29 @@ It focuses on simplicity and practically implementation.
 
 # Try it!
 
-> Live demo is coming soon...
+[https://school-demo.wichai.site](https://school-demo.wichai.site/)
 
 # Test
 All test cases are inside `school_manager/tests` directory.  
-Run all test using `python manage.py test`
+Run all tests using `python manage.py test`
 
 # Deployment
 
-> **TODO:** Hosting and how to.
+You can deploy the app on system environment or a docker environment.  
+**NOTE:** The Postgis is required on your system.
 
 ## Docker
 
-> **TODO:** Dockerizing.
+To build a docker image and run the container, follows these steps:  
+1. Clone or download this repo.  
+`$ git clone git@github.com:wichai-t/django-api-example.git`
+2. Set secrets and other configs in the `.env` file.
+3. Build the image.  
+`$ docker build -t school_man:latest -f Dockerfile .`
+4. Run a container.  
+`$ docker run  --name myschoolman -p 8080:8000 school_man`  
+
+Then check the result on the web site: [127.0.0.1:8080](http://127.0.0.1:8080/)
 
 
 ## Working log
@@ -32,3 +42,8 @@ Here is the working log as I am writing this project:
 |          |Improve readability | <ul><li>Make the code tidier</li> <li> Writing docstring</li> <li>and this README.md</li></ul>|
 |          | Add all test cases |  Inside the `school_manager/tests` directory.|
 |          | Modify some features | <ul><li>Add some fields to the models: education stage to Student and location (Postgis lat, lon) to Schools</li> <li>Add search and ordering filters to the endpoints such as `/students/?search=jeremy&ordering=first_name`</li> <li>Make admin's url configurable via the env file</li> <li>Config Limit-Offset style pagination</li></ul> |
+|Mon, 17 Jan 22    | Implement the JWT authentication API support     | Install the `djangorestframework-jwt` and config its routes  |
+|   | Dockerize the application  | Add Dockerfile to project |
+|   | Deploy  | Deploy the project on [https://school-demo.wichai.site](https://school-demo.wichai.site/) |
+|   | Generate example data  | <ul><li> Create a demo data generator fn inside the tests dir </li> <li>Generate example data on the site</li></ul> |
+|   | Add home page  | Simple json response, which shows our API urls |

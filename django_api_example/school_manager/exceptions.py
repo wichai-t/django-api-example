@@ -3,7 +3,7 @@
 class TooManyStudentError(Exception):
     """Exception raised for errors in the student exceed school capacity case.
     Attributes:
-        school_name (str, optional: name of the school.
+        school_name (str, optional): name of the school.
         max_student (int, optional): maximum number of student accepted by the school.
     """
 
